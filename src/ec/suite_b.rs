@@ -228,7 +228,6 @@ pub(crate) fn key_pair_from_bytes(
 }
 
 pub mod curve;
-#[cfg(not(target_family = "wasm"))]
 pub mod ecdh;
 pub mod ecdsa;
 
