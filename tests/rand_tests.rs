@@ -17,14 +17,14 @@ use ring::{
     test,
 };
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", target_os = "unknown"))]
 use wasm_bindgen_test::{wasm_bindgen_test, wasm_bindgen_test_configure};
 
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", target_os = "unknown"))]
 wasm_bindgen_test_configure!(run_in_browser);
 
 #[test]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+#[cfg_attr(all(target_arch = "wasm32", target_os = "unknown"), wasm_bindgen_test)]
 fn test_system_random_lengths() {
     const LINUX_LIMIT: usize = 256;
     const WEB_LIMIT: usize = 65536;
@@ -68,7 +68,7 @@ fn test_system_random_lengths() {
 }
 
 #[test]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
+#[cfg_attr(all(target_arch = "wasm32", target_os = "unknown"), wasm_bindgen_test)]
 fn test_system_random_traits() {
     test::compile_time_assert_clone::<rand::SystemRandom>();
     test::compile_time_assert_send::<rand::SystemRandom>();

@@ -168,7 +168,7 @@ impl crate::sealed::Sealed for SystemRandom {}
         any(target_os = "android", target_os = "linux"),
         not(feature = "dev_urandom_fallback")
     ),
-    target_arch = "wasm32",
+    target_family = "wasm",
     windows
 ))]
 use self::sysrand::fill as fill_impl;
@@ -244,8 +244,24 @@ mod sysrand_chunk {
     }
 }
 
+#[cfg(target_os = "wasi")]
+mod sysrand_chunk {
+    use crate::{error};
+
+    #[inline]
+    pub fn chunk(dest: &mut [u8]) -> Result<usize, error::Unspecified> {
+        unsafe {
+            let base = dest as *mut [u8] as *mut u8;
+            let len = dest.len();
+            wasi::random_get(base, len)
+                .map(|_| len as usize)
+                .map_err(|_| error::Unspecified)
+        }
+    }
+}
+
 #[cfg(all(
-    target_arch = "wasm32",
+    target_family = "wasm64",
     target_vendor = "unknown",
     target_os = "unknown",
     target_env = "",
@@ -299,7 +315,7 @@ mod sysrand_chunk {
 #[cfg(any(
     target_os = "android",
     target_os = "linux",
-    target_arch = "wasm32",
+    target_family = "wasm",
     windows
 ))]
 mod sysrand {

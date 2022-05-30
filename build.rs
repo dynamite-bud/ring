@@ -455,7 +455,7 @@ fn build_library(
         .map(Path::new)
         .any(|p| need_run(&p, &lib_path, includes_modified))
     {
-        let mut c = cc::Build::new();
+        let mut c = cc_builder();
 
         for f in LD_FLAGS {
             let _ = c.flag(&f);
@@ -487,6 +487,17 @@ fn build_library(
     // Link the library. This works even when the library doesn't need to be
     // rebuilt.
     println!("cargo:rustc-link-lib=static={}", lib_name);
+}
+
+fn cc_builder() -> cc::Build {
+    let mut c = cc::Build::new();
+    let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
+    if target_os == "wasi" {
+        let wasi_sdk_path =
+            &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
+        c.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
+    }
+    c
 }
 
 fn compile(
@@ -530,7 +541,7 @@ fn cc(
 ) -> Command {
     let is_musl = target.env.starts_with("musl");
 
-    let mut c = cc::Build::new();
+    let mut c = cc_builder();
     let _ = c.include("include");
     match ext {
         "c" => {

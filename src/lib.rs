@@ -92,6 +92,7 @@ mod bssl;
 mod polyfill;
 
 pub mod aead;
+#[cfg(not(target_family = "wasm"))]
 pub mod agreement;
 
 mod bits;

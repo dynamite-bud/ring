@@ -107,6 +107,7 @@ impl Key {
             }
         };
 
+        #[allow(unused_doc_comments)]
         /// XXX: Although this takes an `Iv`, this actually uses it like a
         /// `Counter`.
         extern "C" {

@@ -209,6 +209,7 @@ pub(crate) mod arm {
             const ARMCAP_STATIC: u32 = 0
                 $(  | $name.mask
                 )+;
+            #[cfg_attr(target_os = "wasi", allow(dead_code))]
             #[cfg(not(all(target_arch = "aarch64", target_vendor = "apple")))]
             const ARMCAP_STATIC: u32 = 0;
 
@@ -225,6 +226,7 @@ pub(crate) mod arm {
 
     #[allow(dead_code)]
     pub(crate) struct Feature {
+        #[cfg_attr(target_os = "wasi", allow(dead_code))]
         mask: u32,
     }
 
