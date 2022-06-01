@@ -22,6 +22,7 @@ pub(crate) struct Key {
 
 macro_rules! set_encrypt_key {
     ( $name:ident, $bytes:expr, $key_bits:expr, $key:expr ) => {{
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn $name(user_key: *const u8, bits: c::uint, key: &mut AES_KEY) -> c::int;
         }
@@ -68,6 +69,7 @@ fn encrypt_block_(
 
 macro_rules! ctr32_encrypt_blocks {
     ($name:ident, $in_out:expr, $in_prefix_len:expr, $key:expr, $ivec:expr ) => {{
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn $name(
                 input: *const u8,
@@ -242,6 +244,7 @@ impl Key {
                         rd_key: [0u32; 4 * (MAX_ROUNDS + 1)],
                         rounds: 0,
                     };
+                    #[link(wasm_import_module = "ignore")]
                     extern "C" {
                         fn GFp_vpaes_encrypt_key_to_bsaes(
                             bsaes_key: &mut AES_KEY,

@@ -590,7 +590,7 @@ fn cc(
     // Allow cross-compiling without a target sysroot for these targets.
     //
     // poly1305_vec.c requires <emmintrin.h> which requires <stdlib.h>.
-    if (target.arch == "wasm32" && target.os == "unknown")
+    if (target.arch == "wasm32")
         || (target.os == "linux" && is_musl && target.arch != "x86_64")
     {
         if let Ok(compiler) = c.try_get_compiler() {

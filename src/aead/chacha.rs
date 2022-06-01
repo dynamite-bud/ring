@@ -110,6 +110,7 @@ impl Key {
         #[allow(unused_doc_comments)]
         /// XXX: Although this takes an `Iv`, this actually uses it like a
         /// `Counter`.
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_ChaCha20_ctr32(
                 out: *mut u8,

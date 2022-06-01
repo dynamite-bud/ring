@@ -56,6 +56,7 @@ pub const LIMB_BYTES: usize = (LIMB_BITS + 7) / 8;
 
 #[inline]
 pub fn limbs_equal_limbs_consttime(a: &[Limb], b: &[Limb]) -> LimbMask {
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn LIMBS_equal(a: *const Limb, b: *const Limb, num_limbs: c::size_t) -> LimbMask;
     }
@@ -278,6 +279,7 @@ pub fn fold_5_bit_windows<R, I: FnOnce(Window) -> R, F: Fn(R, Window) -> R>(
 
     const WINDOW_BITS: Wrapping<c::size_t> = Wrapping(5);
 
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn LIMBS_window5_split_window(
             lower_limb: Limb,
@@ -331,6 +333,7 @@ pub fn fold_5_bit_windows<R, I: FnOnce(Window) -> R, F: Fn(R, Window) -> R>(
         })
 }
 
+#[link(wasm_import_module = "ignore")]
 extern "C" {
     #[cfg(feature = "alloc")]
     fn LIMB_shr(a: Limb, shift: c::size_t) -> Limb;

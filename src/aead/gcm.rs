@@ -32,6 +32,7 @@ impl Key {
         match detect_implementation(cpu_features) {
             #[cfg(target_arch = "x86_64")]
             Implementation::CLMUL if has_avx_movbe(cpu_features) => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_init_avx(HTable: &mut HTable, h: &[u64; 2]);
                 }
@@ -47,6 +48,7 @@ impl Key {
                 target_arch = "x86"
             ))]
             Implementation::CLMUL => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_init_clmul(Htable: &mut HTable, h: &[u64; 2]);
                 }
@@ -57,6 +59,7 @@ impl Key {
 
             #[cfg(any(target_arch = "aarch64", target_arch = "arm"))]
             Implementation::NEON => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_init_neon(Htable: &mut HTable, h: &[u64; 2]);
                 }
@@ -120,6 +123,7 @@ impl Context {
         match detect_implementation(self.cpu_features) {
             #[cfg(target_arch = "x86_64")]
             Implementation::CLMUL if has_avx_movbe(self.cpu_features) => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_ghash_avx(
                         xi: &mut Xi,
@@ -140,6 +144,7 @@ impl Context {
                 target_arch = "x86"
             ))]
             Implementation::CLMUL => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_ghash_clmul(
                         xi: &mut Xi,
@@ -155,6 +160,7 @@ impl Context {
 
             #[cfg(any(target_arch = "aarch64", target_arch = "arm"))]
             Implementation::NEON => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_ghash_neon(
                         xi: &mut Xi,
@@ -192,6 +198,7 @@ impl Context {
                 target_arch = "x86"
             ))]
             Implementation::CLMUL => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_gmult_clmul(xi: &mut Xi, Htable: &HTable);
                 }
@@ -202,6 +209,7 @@ impl Context {
 
             #[cfg(any(target_arch = "aarch64", target_arch = "arm"))]
             Implementation::NEON => {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_gcm_gmult_neon(xi: &mut Xi, Htable: &HTable);
                 }

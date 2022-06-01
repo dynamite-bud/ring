@@ -74,6 +74,7 @@ impl signature::VerificationAlgorithm for EdDSAParameters {
 
 impl sealed::Sealed for EdDSAParameters {}
 
+#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn GFp_x25519_ge_double_scalarmult_vartime(
         r: &mut Point,

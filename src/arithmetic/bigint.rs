@@ -265,6 +265,7 @@ impl<M> Modulus<M> {
         // done by taking the lowest `N0_LIMBS_USED` limbs of `n`.
         #[allow(clippy::useless_conversion)]
         let n0 = {
+            #[link(wasm_import_module = "ignore")]
             extern "C" {
                 fn GFp_bn_neg_inv_mod_r_u64(n: u64) -> u64;
             }
@@ -482,6 +483,7 @@ where
 }
 
 fn elem_mul_by_2<M, AF>(a: &mut Elem<M, AF>, m: &PartialModulus<M>) {
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn LIMBS_shl_mod(r: *mut Limb, a: *const Limb, m: *const Limb, num_limbs: c::size_t);
     }
@@ -550,6 +552,7 @@ pub fn elem_widen<Larger, Smaller: SmallerModulus<Larger>>(
 
 // TODO: Document why this works for all Montgomery factors.
 pub fn elem_add<M, E>(mut a: Elem<M, E>, b: Elem<M, E>, m: &Modulus<M>) -> Elem<M, E> {
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         // `r` and `a` may alias.
         fn LIMBS_add_mod(
@@ -574,6 +577,7 @@ pub fn elem_add<M, E>(mut a: Elem<M, E>, b: Elem<M, E>, m: &Modulus<M>) -> Elem<
 
 // TODO: Document why this works for all Montgomery factors.
 pub fn elem_sub<M, E>(mut a: Elem<M, E>, b: &Elem<M, E>, m: &Modulus<M>) -> Elem<M, E> {
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         // `r` and `a` may alias.
         fn LIMBS_sub_mod(
@@ -823,6 +827,7 @@ pub fn elem_exp_consttime<M>(
     let mut table = vec![0; TABLE_ENTRIES * num_limbs];
 
     fn gather<M>(table: &[Limb], i: Window, r: &mut Elem<M, R>) {
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn LIMBS_select_512_32(
                 r: *mut Limb,
@@ -950,6 +955,7 @@ pub fn elem_exp_consttime<M>(
     entry_mut(state, M, num_limbs).copy_from_slice(&m.limbs);
 
     fn scatter(table: &mut [Limb], state: &[Limb], i: Window, num_limbs: usize) {
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_bn_scatter5(a: *const Limb, a_len: c::size_t, table: *mut Limb, i: Window);
         }
@@ -964,6 +970,7 @@ pub fn elem_exp_consttime<M>(
     }
 
     fn gather(table: &[Limb], state: &mut [Limb], i: Window, num_limbs: usize) {
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_bn_gather5(r: *mut Limb, a_len: c::size_t, table: *const Limb, i: Window);
         }
@@ -986,6 +993,7 @@ pub fn elem_exp_consttime<M>(
     }
 
     fn gather_mul_base(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_bn_mul_mont_gather5(
                 rp: *mut Limb,
@@ -1011,6 +1019,7 @@ pub fn elem_exp_consttime<M>(
     }
 
     fn power(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_bn_power5(
                 r: *mut Limb,
@@ -1069,6 +1078,7 @@ pub fn elem_exp_consttime<M>(
         },
     );
 
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn GFp_bn_from_montgomery(
             r: *mut Limb,
@@ -1240,6 +1250,7 @@ fn limbs_mont_mul(r: &mut [Limb], a: &[Limb], m: &[Limb], n0: &N0) {
 }
 
 fn limbs_from_mont_in_place(r: &mut [Limb], tmp: &mut [Limb], m: &[Limb], n0: &N0) {
+    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn GFp_bn_from_montgomery_in_place(
             r: *mut Limb,
@@ -1361,6 +1372,7 @@ fn limbs_mont_square(r: &mut [Limb], m: &[Limb], n0: &N0) {
     }
 }
 
+#[link(wasm_import_module = "ignore")]
 extern "C" {
     #[cfg(any(
         target_arch = "aarch64",

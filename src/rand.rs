@@ -417,7 +417,7 @@ mod darwin {
     #[repr(C)]
     struct SecRandomRef([u8; 0]);
 
-    #[link(name = "Security", kind = "framework")]
+    #[link(name = "Security", kind = "framework", wasm_import_module = "ignore")]
     extern "C" {
         static kSecRandomDefault: &'static SecRandomRef;
 
@@ -442,7 +442,7 @@ mod fuchsia {
         Ok(())
     }
 
-    #[link(name = "zircon")]
+    #[link(name = "zircon", wasm_import_module = "ignore")]
     extern "C" {
         fn zx_cprng_draw(buffer: *mut u8, length: usize);
     }

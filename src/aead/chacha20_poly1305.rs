@@ -85,6 +85,7 @@ fn chacha20_poly1305_seal(
             };
 
             // Encrypts `plaintext_len` bytes from `plaintext` and writes them to `out_ciphertext`.
+            #[link(wasm_import_module = "ignore")]
             extern "C" {
                 fn GFp_chacha20_poly1305_seal(
                     out_ciphertext: *mut u8,
@@ -154,6 +155,7 @@ fn chacha20_poly1305_open(
             };
 
             // Decrypts `plaintext_len` bytes from `ciphertext` and writes them to `out_plaintext`.
+            #[link(wasm_import_module = "ignore")]
             extern "C" {
                 fn GFp_chacha20_poly1305_open(
                     out_plaintext: *mut u8,

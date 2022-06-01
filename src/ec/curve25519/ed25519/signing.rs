@@ -178,6 +178,7 @@ impl Ed25519KeyPair {
     /// Returns the signature of the message `msg`.
     pub fn sign(&self, msg: &[u8]) -> signature::Signature {
         signature::Signature::new(|signature_bytes| {
+            #[link(wasm_import_module = "ignore")]
             extern "C" {
                 fn GFp_x25519_sc_muladd(
                     s: &mut [u8; SCALAR_LEN],
@@ -250,6 +251,7 @@ fn unwrap_pkcs8(
     Ok((private_key, public_key))
 }
 
+#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn GFp_x25519_ge_scalarmult_base(h: &mut ExtPoint, a: &Scalar);
 }

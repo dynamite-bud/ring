@@ -39,6 +39,7 @@ pub(crate) fn features() -> Features {
         let () = INIT.call_once(|| {
             #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
             {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     fn GFp_cpuid_setup();
                 }
@@ -70,6 +71,7 @@ pub(crate) mod arm {
 
         // XXX: The `libc` crate doesn't provide `libc::getauxval` consistently
         // across all Android/Linux targets, e.g. musl.
+        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn getauxval(type_: c_ulong) -> c_ulong;
         }
@@ -128,7 +130,7 @@ pub(crate) mod arm {
     pub fn setup() {
         type zx_status_t = i32;
 
-        #[link(name = "zircon")]
+        #[link(name = "zircon", wasm_import_module = "ignore")]
         extern "C" {
             fn zx_system_get_features(kind: u32, features: *mut u32) -> zx_status_t;
         }
@@ -316,6 +318,7 @@ pub(crate) mod intel {
         pub fn available(&self, _: super::Features) -> bool {
             #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
             {
+                #[link(wasm_import_module = "ignore")]
                 extern "C" {
                     static mut GFp_ia32cap_P: [u32; 4];
                 }
