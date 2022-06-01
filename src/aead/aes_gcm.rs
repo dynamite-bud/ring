@@ -102,7 +102,6 @@ fn aead(
 ) -> Tag {
     let Key { aes_key, gcm_key } = match key {
         aead::KeyInner::AesGcm(key) => key,
-        #[cfg(not(target_os = "wasi"))]
         _ => unreachable!(),
     };
 

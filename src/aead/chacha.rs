@@ -12,7 +12,7 @@
 // WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
 // OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
+#![cfg_attr(target_os = "wasi", allow(unused, dead_code))]
 use super::{counter, iv::Iv, quic::Sample, BLOCK_LEN};
 use crate::{c, endian::*};
 
@@ -92,6 +92,7 @@ impl Key {
     }
 
     #[inline] // Optimize away match on `counter.`
+    #[cfg(not(target_os = "wasi"))]
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
@@ -121,6 +122,17 @@ impl Key {
         }
 
         GFp_ChaCha20_ctr32(output, input, in_out_len, self, &iv);
+    }
+
+    #[cfg(target_os = "wasi")]
+    unsafe fn encrypt(
+        &self,
+        counter: CounterOrIv,
+        input: *const u8,
+        in_out_len: usize,
+        output: *mut u8,
+    ) {
+        unimplemented!("need to implement a pure rust ChaCha here")
     }
 
     #[cfg(target_arch = "x86_64")]
