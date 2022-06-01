@@ -625,7 +625,7 @@ derive_debug_via_id!(Algorithm);
 enum AlgorithmID {
     AES_128_GCM,
     AES_256_GCM,
-    #[cfg(not(target_os = "wasi"))]
+    #[allow(dead_code)]
     CHACHA20_POLY1305,
 }
 
