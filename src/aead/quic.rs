@@ -17,10 +17,14 @@
 //! See draft-ietf-quic-tls.
 
 use crate::{
-    aead::{aes, chacha},
+    aead::{aes},
     cpu, error, hkdf,
 };
-use core::convert::{TryFrom, TryInto};
+#[cfg(not(target_os = "wasi"))]
+use crate::aead::chacha;
+use core::convert::TryFrom;
+#[cfg(not(target_os = "wasi"))]
+use core::convert::TryInto;
 
 /// A key for generating QUIC Header Protection masks.
 pub struct HeaderProtectionKey {
@@ -31,6 +35,7 @@ pub struct HeaderProtectionKey {
 #[allow(clippy::large_enum_variant, variant_size_differences)]
 enum KeyInner {
     Aes(aes::Key),
+    #[cfg(not(target_os = "wasi"))]
     ChaCha20(chacha::Key),
 }
 
@@ -99,6 +104,7 @@ impl hkdf::KeyType for &'static Algorithm {
 
 impl Algorithm {
     /// The length of the key.
+    #[allow(dead_code)]
     #[inline(always)]
     pub fn key_len(&self) -> usize {
         self.key_len
@@ -117,6 +123,7 @@ derive_debug_via_id!(Algorithm);
 enum AlgorithmID {
     AES_128,
     AES_256,
+    #[cfg(not(target_os = "wasi"))]
     CHACHA20,
 }
 
@@ -157,6 +164,7 @@ fn aes_init_256(key: &[u8], cpu_features: cpu::Features) -> Result<KeyInner, err
 fn aes_new_mask(key: &KeyInner, sample: Sample) -> [u8; 5] {
     let aes_key = match key {
         KeyInner::Aes(key) => key,
+        #[cfg(not(target_os = "wasi"))]
         _ => unreachable!(),
     };
 
@@ -164,6 +172,7 @@ fn aes_new_mask(key: &KeyInner, sample: Sample) -> [u8; 5] {
 }
 
 /// ChaCha20.
+#[cfg(not(target_os = "wasi"))]
 pub static CHACHA20: Algorithm = Algorithm {
     key_len: chacha::KEY_LEN,
     init: chacha20_init,
@@ -171,11 +180,13 @@ pub static CHACHA20: Algorithm = Algorithm {
     id: AlgorithmID::CHACHA20,
 };
 
+#[cfg(not(target_os = "wasi"))]
 fn chacha20_init(key: &[u8], _todo: cpu::Features) -> Result<KeyInner, error::Unspecified> {
     let chacha20_key: [u8; chacha::KEY_LEN] = key.try_into()?;
     Ok(KeyInner::ChaCha20(chacha::Key::from(chacha20_key)))
 }
 
+#[cfg(not(target_os = "wasi"))]
 fn chacha20_new_mask(key: &KeyInner, sample: Sample) -> [u8; 5] {
     let chacha20_key = match key {
         KeyInner::ChaCha20(key) => key,

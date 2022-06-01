@@ -27,8 +27,11 @@ use core::ops::RangeFrom;
 
 pub use self::{
     aes_gcm::{AES_128_GCM, AES_256_GCM},
-    chacha20_poly1305::CHACHA20_POLY1305,
     nonce::{Nonce, NONCE_LEN},
+};
+#[cfg(not(target_os = "wasi"))]
+pub use self::{
+    chacha20_poly1305::CHACHA20_POLY1305,
 };
 
 /// A sequences of unique nonces.
@@ -401,6 +404,7 @@ impl core::fmt::Debug for UnboundKey {
 #[allow(clippy::large_enum_variant, variant_size_differences)]
 enum KeyInner {
     AesGcm(aes_gcm::Key),
+    #[cfg(not(target_os = "wasi"))]
     ChaCha20Poly1305(chacha20_poly1305::Key),
 }
 
@@ -621,6 +625,7 @@ derive_debug_via_id!(Algorithm);
 enum AlgorithmID {
     AES_128_GCM,
     AES_256_GCM,
+    #[cfg(not(target_os = "wasi"))]
     CHACHA20_POLY1305,
 }
 
@@ -667,13 +672,17 @@ enum Direction {
 mod aes;
 mod aes_gcm;
 mod block;
+#[cfg(not(target_os = "wasi"))]
 mod chacha;
+#[cfg(not(target_os = "wasi"))]
 mod chacha20_poly1305;
+#[cfg(not(target_os = "wasi"))]
 pub mod chacha20_poly1305_openssh;
 mod counter;
 mod gcm;
 mod iv;
 mod nonce;
+#[cfg(not(target_os = "wasi"))]
 mod poly1305;
 pub mod quic;
 mod shift;

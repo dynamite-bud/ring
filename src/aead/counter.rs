@@ -37,6 +37,7 @@ where
     U32: Layout,
     [U32; 4]: ArrayEncoding<[u8; IV_LEN]>,
 {
+    #[allow(dead_code)]
     pub fn zero(nonce: Nonce) -> Self {
         Self::new(nonce, 0)
     }

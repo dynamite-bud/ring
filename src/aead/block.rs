@@ -34,6 +34,7 @@ impl Block {
 
     // TODO: Remove this.
     #[inline]
+    #[allow(dead_code)]
     pub fn from_u64_le(first: LittleEndian<u64>, second: LittleEndian<u64>) -> Self {
         #[allow(deprecated)]
         Self {
