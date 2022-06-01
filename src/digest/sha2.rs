@@ -378,7 +378,6 @@ impl Sha2 for Wrapping<u64> {
 }
 
 #[cfg(any(target_arch = "aarch64", target_arch = "arm", target_arch = "x86_64"))]
-#[link(wasm_import_module = "ignore")]
 extern "C" {
     pub(super) fn GFp_sha256_block_data_order(
         state: &mut super::State,

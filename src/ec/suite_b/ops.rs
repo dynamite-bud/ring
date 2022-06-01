@@ -425,7 +425,6 @@ fn parse_big_endian_fixed_consttime<M>(
     Ok(r)
 }
 
-#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn LIMBS_add_mod(
         r: *mut Limb,
@@ -507,7 +506,6 @@ mod tests {
 
     #[test]
     fn p384_elem_sub_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_p384_elem_sub(r: *mut Limb, a: *const Limb, b: *const Limb);
         }
@@ -559,7 +557,6 @@ mod tests {
 
     #[test]
     fn p384_elem_div_by_2_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_p384_elem_div_by_2(r: *mut Limb, a: *const Limb);
         }
@@ -594,7 +591,6 @@ mod tests {
     // TODO: Add test vectors that test the range of values above `q`.
     #[test]
     fn p256_elem_neg_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_nistz256_neg(r: *mut Limb, a: *const Limb);
         }
@@ -607,7 +603,6 @@ mod tests {
 
     #[test]
     fn p384_elem_neg_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_p384_elem_neg(r: *mut Limb, a: *const Limb);
         }
@@ -707,7 +702,6 @@ mod tests {
 
     #[test]
     fn p256_scalar_square_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_p256_scalar_sqr_rep_mont(r: *mut Limb, a: *const Limb, rep: Limb);
         }
@@ -802,7 +796,6 @@ mod tests {
     #[cfg(any(target_arch = "aarch64", target_arch = "x86", target_arch = "x86_64"))]
     #[test]
     fn p256_point_sum_mixed_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_nistz256_point_add_affine(
                 r: *mut Limb,   // [p256::COMMON_OPS.num_limbs*3]
@@ -849,7 +842,6 @@ mod tests {
 
     #[test]
     fn p256_point_double_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_nistz256_point_double(
                 r: *mut Limb,   // [p256::COMMON_OPS.num_limbs*3]
@@ -865,7 +857,6 @@ mod tests {
 
     #[test]
     fn p384_point_double_test() {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_nistz384_point_double(
                 r: *mut Limb,   // [p384::COMMON_OPS.num_limbs*3]

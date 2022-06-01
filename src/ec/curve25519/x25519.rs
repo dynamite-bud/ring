@@ -76,7 +76,6 @@ fn x25519_public_from_private(
         }
     }
 
-    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn GFp_x25519_public_from_private_generic_masked(
             public_key_out: &mut PublicKey,
@@ -117,7 +116,6 @@ fn x25519_ecdh(
             }
         }
 
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_x25519_scalar_mult_generic_masked(
                 out: &mut ops::EncodedPoint,
@@ -148,7 +146,6 @@ fn x25519_ecdh(
 
 #[cfg(all(not(target_os = "ios"), target_arch = "arm"))]
 fn x25519_neon(out: &mut ops::EncodedPoint, scalar: &ops::MaskedScalar, point: &ops::EncodedPoint) {
-    #[link(wasm_import_module = "ignore")]
     extern "C" {
         fn GFp_x25519_NEON(
             out: &mut ops::EncodedPoint,

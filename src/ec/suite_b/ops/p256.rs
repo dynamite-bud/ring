@@ -132,7 +132,6 @@ fn p256_point_mul_base_impl(g_scalar: &Scalar) -> Point {
 
     #[cfg(any(target_arch = "aarch64", target_arch = "x86", target_arch = "x86_64"))]
     {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_nistz256_point_mul_base(
                 r: *mut Limb,          // [3][COMMON_OPS.num_limbs]
@@ -338,7 +337,6 @@ fn p256_scalar_inv_to_mont(a: &Scalar<Unencoded>) -> Scalar<R> {
     acc
 }
 
-#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn GFp_nistz256_add(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]

@@ -33,6 +33,8 @@ const X86: &str = "x86";
 const X86_64: &str = "x86_64";
 const AARCH64: &str = "aarch64";
 const ARM: &str = "arm";
+const WASM32: &str = "wasm32";
+const WASM64: &str = "wasm64";
 
 #[rustfmt::skip]
 const RING_SRCS: &[(&[&str], &str)] = &[
@@ -43,14 +45,14 @@ const RING_SRCS: &[(&[&str], &str)] = &[
     (&[], "crypto/mem.c"),
     (&[], "crypto/poly1305/poly1305.c"),
 
-    (&[AARCH64, ARM, X86_64, X86], "crypto/crypto.c"),
-    (&[AARCH64, ARM, X86_64, X86], "crypto/curve25519/curve25519.c"),
-    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/ecp_nistz.c"),
-    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/ecp_nistz256.c"),
-    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/gfp_p256.c"),
-    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/gfp_p384.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/crypto.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/curve25519/curve25519.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/ecp_nistz.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/ecp_nistz256.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/gfp_p256.c"),
+    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/gfp_p384.c"),
 
-    (&[X86_64, X86], "crypto/cpu-intel.c"),
+    (&[X86_64, X86, WASM32, WASM64], "crypto/cpu-intel.c"),
 
     (&[X86], "crypto/fipsmodule/aes/asm/aesni-x86.pl"),
     (&[X86], "crypto/fipsmodule/aes/asm/vpaes-x86.pl"),
@@ -227,6 +229,7 @@ const ASM_TARGETS: &[(&str, Option<&str>, Option<&str>)] = &[
     ("arm", Some("ios"), Some("ios32")),
     ("arm", None, Some("linux32")),
     ("wasm32", None, None),
+    ("wasm64", None, None),
 ];
 
 const WINDOWS: &str = "windows";

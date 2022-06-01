@@ -44,7 +44,6 @@ impl Scalar {
 
     // Constructs a `Scalar` from `digest` reduced modulo n.
     pub fn from_sha512_digest_reduced(digest: digest::Digest) -> Self {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_x25519_sc_reduce(s: &mut UnreducedScalar);
         }
@@ -60,7 +59,6 @@ pub struct MaskedScalar([u8; SCALAR_LEN]);
 
 impl MaskedScalar {
     pub fn from_bytes_masked(bytes: [u8; SCALAR_LEN]) -> Self {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn GFp_x25519_sc_mask(a: &mut [u8; SCALAR_LEN]);
         }

@@ -31,7 +31,6 @@ pub fn verify_slices_are_equal(a: &[u8], b: &[u8]) -> Result<(), error::Unspecif
     }
 }
 
-#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn GFp_memcmp(a: *const u8, b: *const u8, len: c::size_t) -> c::int;
 }
@@ -42,7 +41,6 @@ mod tests {
 
     #[test]
     fn test_constant_time() -> Result<(), error::Unspecified> {
-        #[link(wasm_import_module = "ignore")]
         extern "C" {
             fn bssl_constant_time_test_main() -> bssl::Result;
         }

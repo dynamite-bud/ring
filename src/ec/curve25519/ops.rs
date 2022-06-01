@@ -145,7 +145,6 @@ fn encode_point(x: Elem<T>, y: Elem<T>, z: Elem<T>) -> EncodedPoint {
     bytes
 }
 
-#[link(wasm_import_module = "ignore")]
 extern "C" {
     fn GFp_x25519_fe_invert(out: &mut Elem<T>, z: &Elem<T>);
     fn GFp_x25519_fe_isnegative(elem: &Elem<T>) -> u8;
