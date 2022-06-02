@@ -69,7 +69,7 @@ const RING_SRCS: &[(&[&str], &str)] = &[
     (&[X86_64], "crypto/fipsmodule/ec/asm/p256-x86_64-asm.pl"),
     (&[X86_64], "crypto/fipsmodule/modes/asm/aesni-gcm-x86_64.pl"),
     (&[X86_64], "crypto/fipsmodule/modes/asm/ghash-x86_64.pl"),
-    (&[X86_64], "crypto/poly1305/poly1305_vec.c"),
+    (&[X86_64, WASM32, WASM64], "crypto/poly1305/poly1305_vec.c"),
     (&[X86_64], SHA512_X86_64),
     (&[X86_64], "crypto/cipher_extra/asm/chacha20_poly1305_x86_64.pl"),
 
@@ -83,7 +83,7 @@ const RING_SRCS: &[(&[&str], &str)] = &[
     (&[ARM], "crypto/curve25519/asm/x25519-asm-arm.S"),
     (&[ARM], "crypto/fipsmodule/ec/asm/ecp_nistz256-armv4.pl"),
     (&[ARM], "crypto/fipsmodule/modes/asm/ghash-armv4.pl"),
-    (&[ARM], "crypto/poly1305/poly1305_arm.c"),
+    (&[ARM, WASM32, WASM64], "crypto/poly1305/poly1305_arm.c"),
     (&[ARM], "crypto/poly1305/poly1305_arm_asm.S"),
     (&[ARM], "crypto/fipsmodule/sha/asm/sha256-armv4.pl"),
     (&[ARM], "crypto/fipsmodule/sha/asm/sha512-armv4.pl"),
