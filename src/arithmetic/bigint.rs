@@ -985,7 +985,7 @@ pub fn elem_exp_consttime<M>(
         limbs_mont_square(acc, m, n0);
     }
 
-    #[cfg(not(target_env = "wasi"))]
+    #[cfg(not(target_os = "wasi"))]
     fn gather_mul_base(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
         extern "C" {
             fn GFp_bn_mul_mont_gather5(
@@ -1011,9 +1011,9 @@ pub fn elem_exp_consttime<M>(
         }
     }
 
-    #[cfg(target_env = "wasi")]
+    #[cfg(target_os = "wasi")]
     fn gather_mul_base(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
-        unimplemented!()
+        unimplemented!("not yet implemented - use pure rust implementation instead")
     }
 
     fn power(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {

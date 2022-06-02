@@ -337,17 +337,46 @@ fn p256_scalar_inv_to_mont(a: &Scalar<Unencoded>) -> Scalar<R> {
     acc
 }
 
+#[cfg(target_os = "wasi")]
+extern "C" fn GFp_nistz256_add(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_os = "wasi")]
+extern "C" fn GFp_nistz256_mul_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_os = "wasi")]
+extern "C" fn GFp_nistz256_sqr_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
 extern "C" {
+    #[cfg(not(target_os = "wasi"))]
     fn GFp_nistz256_add(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
+    #[cfg(not(target_os = "wasi"))]
     fn GFp_nistz256_mul_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
+    #[cfg(not(target_os = "wasi"))]
     fn GFp_nistz256_sqr_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]

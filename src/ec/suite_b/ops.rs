@@ -590,6 +590,7 @@ mod tests {
 
     // TODO: Add test vectors that test the range of values above `q`.
     #[test]
+    #[cfg(not(target_os = "wasi"))]
     fn p256_elem_neg_test() {
         extern "C" {
             fn GFp_nistz256_neg(r: *mut Limb, a: *const Limb);
@@ -840,6 +841,7 @@ mod tests {
         });
     }
 
+    #[cfg(target_os = "wasi")]
     #[test]
     fn p256_point_double_test() {
         extern "C" {
