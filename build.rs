@@ -48,9 +48,9 @@ const RING_SRCS: &[(&[&str], &str)] = &[
     (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/crypto.c"),
     (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/curve25519/curve25519.c"),
     (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/ecp_nistz.c"),
-    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/ecp_nistz256.c"),
-    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/gfp_p256.c"),
-    (&[AARCH64, ARM, X86_64, X86, WASM32, WASM64], "crypto/fipsmodule/ec/gfp_p384.c"),
+    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/ecp_nistz256.c"),
+    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/gfp_p256.c"),
+    (&[AARCH64, ARM, X86_64, X86], "crypto/fipsmodule/ec/gfp_p384.c"),
 
     (&[X86_64, X86, WASM32, WASM64], "crypto/cpu-intel.c"),
 
@@ -69,7 +69,7 @@ const RING_SRCS: &[(&[&str], &str)] = &[
     (&[X86_64], "crypto/fipsmodule/ec/asm/p256-x86_64-asm.pl"),
     (&[X86_64], "crypto/fipsmodule/modes/asm/aesni-gcm-x86_64.pl"),
     (&[X86_64], "crypto/fipsmodule/modes/asm/ghash-x86_64.pl"),
-    (&[X86_64, WASM32, WASM64], "crypto/poly1305/poly1305_vec.c"),
+    (&[X86_64], "crypto/poly1305/poly1305_vec.c"),
     (&[X86_64], SHA512_X86_64),
     (&[X86_64], "crypto/cipher_extra/asm/chacha20_poly1305_x86_64.pl"),
 
