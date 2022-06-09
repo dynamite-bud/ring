@@ -985,7 +985,6 @@ pub fn elem_exp_consttime<M>(
         limbs_mont_square(acc, m, n0);
     }
 
-    #[cfg(not(target_os = "wasi"))]
     fn gather_mul_base(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
         extern "C" {
             fn GFp_bn_mul_mont_gather5(
@@ -1009,11 +1008,6 @@ pub fn elem_exp_consttime<M>(
                 i,
             );
         }
-    }
-
-    #[cfg(target_os = "wasi")]
-    fn gather_mul_base(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
-        unimplemented!("not yet implemented - use pure rust implementation instead")
     }
 
     fn power(table: &[Limb], state: &mut [Limb], n0: &N0, i: Window, num_limbs: usize) {
@@ -1190,7 +1184,7 @@ fn greater_than(a: &Nonnegative, b: &Nonnegative) -> bool {
 
 #[derive(Clone)]
 #[repr(transparent)]
-struct N0([Limb; 2]);
+pub struct N0([Limb; 2]);
 
 const N0_LIMBS_USED: usize = 64 / LIMB_BITS;
 

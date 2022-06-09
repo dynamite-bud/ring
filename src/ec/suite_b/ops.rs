@@ -841,7 +841,7 @@ mod tests {
         });
     }
 
-    #[cfg(target_os = "wasi")]
+    #[cfg(not(target_os = "wasi"))]
     #[test]
     fn p256_point_double_test() {
         extern "C" {

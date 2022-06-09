@@ -338,23 +338,73 @@ const N_RR_LIMBS: [Limb; MAX_LIMBS] = p384_limbs![
     0x28266895, 0x3fb05b7a, 0x2b39bf21, 0x0c84ee01
 ];
 
+#[cfg(target_family = "wasm")]
+extern "C" fn GFp_p384_elem_add(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+extern "C" fn GFp_p384_elem_mul_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+extern "C" fn GFp_nistz384_point_add(
+    _r: *mut Limb,   // [3][COMMON_OPS.num_limbs]
+    _a: *const Limb, // [3][COMMON_OPS.num_limbs]
+    _b: *const Limb, // [3][COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+extern "C" fn GFp_nistz384_point_mul(
+    _r: *mut Limb,          // [3][COMMON_OPS.num_limbs]
+    _p_scalar: *const Limb, // [COMMON_OPS.num_limbs]
+    _p_x: *const Limb,      // [COMMON_OPS.num_limbs]
+    _p_y: *const Limb,      // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+extern "C" fn GFp_p384_scalar_mul_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
 extern "C" {
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p384_elem_add(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p384_elem_mul_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
 
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz384_point_add(
         r: *mut Limb,   // [3][COMMON_OPS.num_limbs]
         a: *const Limb, // [3][COMMON_OPS.num_limbs]
         b: *const Limb, // [3][COMMON_OPS.num_limbs]
     );
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz384_point_mul(
         r: *mut Limb,          // [3][COMMON_OPS.num_limbs]
         p_scalar: *const Limb, // [COMMON_OPS.num_limbs]
@@ -362,6 +412,7 @@ extern "C" {
         p_y: *const Limb,      // [COMMON_OPS.num_limbs]
     );
 
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p384_scalar_mul_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]

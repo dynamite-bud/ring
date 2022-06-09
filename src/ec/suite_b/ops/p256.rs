@@ -337,8 +337,8 @@ fn p256_scalar_inv_to_mont(a: &Scalar<Unencoded>) -> Scalar<R> {
     acc
 }
 
-#[cfg(target_os = "wasi")]
-extern "C" fn GFp_nistz256_add(
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_nistz256_add(
     _r: *mut Limb,   // [COMMON_OPS.num_limbs]
     _a: *const Limb, // [COMMON_OPS.num_limbs]
     _b: *const Limb, // [COMMON_OPS.num_limbs]
@@ -346,8 +346,8 @@ extern "C" fn GFp_nistz256_add(
     unimplemented!("not yet implemented - use pure rust implementation instead")
 }
 
-#[cfg(target_os = "wasi")]
-extern "C" fn GFp_nistz256_mul_mont(
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_nistz256_mul_mont(
     _r: *mut Limb,   // [COMMON_OPS.num_limbs]
     _a: *const Limb, // [COMMON_OPS.num_limbs]
     _b: *const Limb, // [COMMON_OPS.num_limbs]
@@ -355,38 +355,86 @@ extern "C" fn GFp_nistz256_mul_mont(
     unimplemented!("not yet implemented - use pure rust implementation instead")
 }
 
-#[cfg(target_os = "wasi")]
-extern "C" fn GFp_nistz256_sqr_mont(
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_nistz256_sqr_mont(
     _r: *mut Limb,   // [COMMON_OPS.num_limbs]
     _a: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_nistz256_point_add(
+    _r: *mut Limb,   // [3][COMMON_OPS.num_limbs]
+    _a: *const Limb, // [3][COMMON_OPS.num_limbs]
+    _b: *const Limb, // [3][COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_nistz256_point_mul(
+    _r: *mut Limb,          // [3][COMMON_OPS.num_limbs]
+    _p_scalar: *const Limb, // [COMMON_OPS.num_limbs]
+    _p_x: *const Limb,      // [COMMON_OPS.num_limbs]
+    _p_y: *const Limb,      // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_p256_scalar_mul_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _b: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_p256_scalar_sqr_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+) {
+    unimplemented!("not yet implemented - use pure rust implementation instead")
+}
+
+#[cfg(target_family = "wasm")]
+pub unsafe extern "C" fn GFp_p256_scalar_sqr_rep_mont(
+    _r: *mut Limb,   // [COMMON_OPS.num_limbs]
+    _a: *const Limb, // [COMMON_OPS.num_limbs]
+    _rep: Limb,
 ) {
     unimplemented!("not yet implemented - use pure rust implementation instead")
 }
 
 extern "C" {
-    #[cfg(not(target_os = "wasi"))]
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz256_add(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
-    #[cfg(not(target_os = "wasi"))]
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz256_mul_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
-    #[cfg(not(target_os = "wasi"))]
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz256_sqr_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
     );
 
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz256_point_add(
         r: *mut Limb,   // [3][COMMON_OPS.num_limbs]
         a: *const Limb, // [3][COMMON_OPS.num_limbs]
         b: *const Limb, // [3][COMMON_OPS.num_limbs]
     );
+
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_nistz256_point_mul(
         r: *mut Limb,          // [3][COMMON_OPS.num_limbs]
         p_scalar: *const Limb, // [COMMON_OPS.num_limbs]
@@ -394,15 +442,20 @@ extern "C" {
         p_y: *const Limb,      // [COMMON_OPS.num_limbs]
     );
 
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p256_scalar_mul_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
         b: *const Limb, // [COMMON_OPS.num_limbs]
     );
+
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p256_scalar_sqr_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
     );
+
+    #[cfg(not(target_family = "wasm"))]
     fn GFp_p256_scalar_sqr_rep_mont(
         r: *mut Limb,   // [COMMON_OPS.num_limbs]
         a: *const Limb, // [COMMON_OPS.num_limbs]
