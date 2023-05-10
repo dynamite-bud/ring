@@ -593,9 +593,7 @@ fn cc(
     // Allow cross-compiling without a target sysroot for these targets.
     //
     // poly1305_vec.c requires <emmintrin.h> which requires <stdlib.h>.
-    if (target.arch == "wasm32")
-        || (target.os == "linux" && is_musl && target.arch != "x86_64")
-    {
+    if (target.arch == "wasm32") || (target.os == "linux" && is_musl && target.arch != "x86_64") {
         if let Ok(compiler) = c.try_get_compiler() {
             // TODO: Expand this to non-clang compilers in 0.17.0 if practical.
             if compiler.is_like_clang() {
@@ -636,8 +634,8 @@ fn cc(
 
 fn nasm(file: &Path, arch: &str, out_file: &Path) -> Command {
     let oformat = match arch {
-        "x86_64" => ("win64"),
-        "x86" => ("win32"),
+        "x86_64" => "win64",
+        "x86" => "win32",
         _ => panic!("unsupported arch: {}", arch),
     };
     let mut c = Command::new("./target/tools/nasm");
